@@ -10,7 +10,11 @@ class GroupsController < ApplicationController
 
   # GET /groups/1
   def show
-    render json: @group
+    @group = Group.find(params[:id])
+
+    if stale?(last_modified: @group.updated_at, public: true)
+      render json: @group
+    end
   end
 
   # POST /groups
